@@ -2,6 +2,8 @@
 /build/
 *.o
 *.exe
+test_app
+imgui.ini
 compile_flags.txt
 
 # Logs
