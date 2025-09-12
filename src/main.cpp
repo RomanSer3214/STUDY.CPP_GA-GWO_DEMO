@@ -1,8 +1,20 @@
+#include <GL/gl.h>
 #include <bits/stdc++.h>
 #include <GLFW/glfw3.h>
 #include "imgui.h"
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_opengl3.h"
+
+int padding = 16;
+int WindowWidth = 800;
+int WindowHeight = 600;
+
+void MyImGui_Style() {
+    ImGuiStyle& style = ImGui::GetStyle();
+
+    style.FrameRounding = 2;
+    style.FramePadding = ImVec2(2, 2);
+}
 
 // test function 
 float test_function(float x, float x_opt = 2.0f) {
@@ -170,7 +182,7 @@ void draw_scene(GA &ga, GWO &gwo) {
         float y = test_function(x, ga.x_opt);
         min_y = std::min(min_y, y);
         max_y = std::max(max_y, y);
-    }
+    } 
 
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
@@ -217,13 +229,17 @@ void draw_scene(GA &ga, GWO &gwo) {
 int main() {
     if (!glfwInit()) return -1;
     glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
-    GLFWwindow* window = glfwCreateWindow(1000, 600, "GA + GWO Demo", NULL, NULL);
+    GLFWwindow* window = glfwCreateWindow(WindowWidth, WindowHeight, "GA + GWO Demo", NULL, NULL);
     if(!window) { glfwTerminate(); return -1; }
     glfwMakeContextCurrent(window);
+    glViewport(padding, padding, WindowWidth - 2 * padding, WindowHeight - 2 * padding);
     ImGui::CreateContext();
     ImGui_ImplGlfw_InitForOpenGL(window, true);
     ImGui_ImplOpenGL3_Init("#version 130");
     ImGui::StyleColorsDark();
+
+    int gaStepCounter = 0;
+    int gwoStepCounter = 0;
 
     GA ga;
     GWO gwo;
@@ -241,20 +257,37 @@ int main() {
         ImGui::NewFrame();
 
         ImGui::SetNextWindowSize(ImVec2(280, 150));
-        ImGui::SetNextWindowPos(ImVec2(720, 0));
+        ImGui::SetNextWindowPos(ImVec2(520, 0));
+        MyImGui_Style();
         ImGui::Begin("GA + GWO Controls", nullptr, ImGuiWindowFlags_NoResize);
 
         ImGui::SliderFloat("Interval a", &ga.a, -10.0f, 0.0f);
         ImGui::SliderFloat("Interval b", &ga.b, 0.0f, 10.0f);
         ImGui::SliderFloat("Optimum x", &ga.x_opt, -5.0f, 5.0f);
 
-        if (ImGui::Button("Init GA")) { ga.init_random(); } 
+        if (ImGui::Button("Init GA")) { 
+            ga.init_random(); 
+            gaStepCounter = 0;
+        } 
         ImGui::SameLine();
-        if (ImGui::Button("Step GA")) { ga.step(); }
+        if (ImGui::Button("Step GA")) { 
+            ga.step();
+            gaStepCounter++;
+        }
+        ImGui::SameLine();
+        ImGui::LabelText("steps", "%d", gaStepCounter);
 
-        if (ImGui::Button("Init GWO")) { gwo.init_random(); } 
+        if (ImGui::Button("Init GWO")) { 
+            gwo.init_random(); 
+            gwoStepCounter = 0;
+        } 
         ImGui::SameLine();
-        if (ImGui::Button("Step GWO")) { gwo.step(); }
+        if (ImGui::Button("Step GWO")) { 
+            gwo.step();
+            gwoStepCounter++;
+        }
+        ImGui::SameLine();
+        ImGui::LabelText("steps", "%d", gwoStepCounter);
 
         ImGui::End();
 
@@ -267,7 +300,6 @@ int main() {
     ImGui_ImplOpenGL3_Shutdown();
     ImGui_ImplGlfw_Shutdown();
     ImGui::DestroyContext();
-    glfwDestroyWindow(window);
     glfwTerminate();
 
     return 0;
