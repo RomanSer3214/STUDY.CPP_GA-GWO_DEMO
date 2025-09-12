@@ -178,7 +178,7 @@ void draw_scene(GA &ga, GWO &gwo) {
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
 
-    // функція
+    // function
     glColor3f(1, 1, 1);
     glBegin(GL_LINE_STRIP);
     for (int i = 0; i < 200; i++) {
@@ -216,7 +216,8 @@ void draw_scene(GA &ga, GWO &gwo) {
 // Main
 int main() {
     if (!glfwInit()) return -1;
-    GLFWwindow* window = glfwCreateWindow(800, 600, "GA + GWO Demo", NULL, NULL);
+    glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
+    GLFWwindow* window = glfwCreateWindow(1000, 600, "GA + GWO Demo", NULL, NULL);
     if(!window) { glfwTerminate(); return -1; }
     glfwMakeContextCurrent(window);
     ImGui::CreateContext();
@@ -240,7 +241,8 @@ int main() {
         ImGui::NewFrame();
 
         ImGui::SetNextWindowSize(ImVec2(280, 150));
-        ImGui::Begin("GA + GWO Controls");
+        ImGui::SetNextWindowPos(ImVec2(720, 0));
+        ImGui::Begin("GA + GWO Controls", nullptr, ImGuiWindowFlags_NoResize);
 
         ImGui::SliderFloat("Interval a", &ga.a, -10.0f, 0.0f);
         ImGui::SliderFloat("Interval b", &ga.b, 0.0f, 10.0f);

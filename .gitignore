@@ -1,0 +1,17 @@
+# Build output
+/build/
+*.o
+*.exe
+compile_flags.txt
+
+# Logs
+*.log
+
+# Temporary/system files
+*.swp
+*.tmp
+.DS_Store
+
+# IDE settings
+.vscode/
+.idea/
