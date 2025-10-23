@@ -83,8 +83,7 @@ void Initialize() {
     ImGui_ImplOpenGL3_Init(glsl_version);
 
     // Ініціалізація алгоритмів
-    ga.Initialize(static_cast<size_t>(populationSize), static_cast<size_t>(chromosomeLength), 
-                  searchMin, searchMax, crossoverRate, mutationRate);
+    ga.Initialize(static_cast<size_t>(populationSize), static_cast<size_t>(chromosomeLength),searchMin, searchMax, crossoverRate, mutationRate);
     ga.EvaluateFitness(TestFunction);
     gwo.Initialize(static_cast<size_t>(populationSize), searchMin, searchMax);
     drawer.Initialize(searchMin, searchMax, TestFunction);
@@ -169,8 +168,7 @@ void Render() {
         isRunning = false;
         currentGeneration = 0;
         if (selectedAlgorithm == 0) {
-            ga.Initialize(static_cast<size_t>(populationSize), static_cast<size_t>(chromosomeLength), 
-                         searchMin, searchMax, crossoverRate, mutationRate);
+            ga.Initialize(static_cast<size_t>(populationSize), static_cast<size_t>(chromosomeLength), searchMin, searchMax, crossoverRate, mutationRate);
             ga.EvaluateFitness(TestFunction);
         } else {
             gwo.Initialize(static_cast<size_t>(populationSize), searchMin, searchMax);

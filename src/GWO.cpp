@@ -72,7 +72,6 @@ public:
         float a = 2.0f - (2.0f * currentGeneration) / 100.0f;
         
         for (auto& wolf : wolves) {
-            // Оновлюємо позицію відносно alpha, beta, delta
             float A1 = 2.0f * a * std::uniform_real_distribution<float>(0, 1)(rng) - a;
             float C1 = 2.0f * std::uniform_real_distribution<float>(0, 1)(rng);
             float D_alpha = std::abs(C1 * alpha.position - wolf.position);
@@ -87,11 +86,7 @@ public:
             float C3 = 2.0f * std::uniform_real_distribution<float>(0, 1)(rng);
             float D_delta = std::abs(C3 * delta.position - wolf.position);
             float X3 = delta.position - A3 * D_delta;
-
-            // Нова позиція - середнє трьох компонентів
             float newPosition = (X1 + X2 + X3) / 3.0f;
-            
-            // Обмежуємо в межах пошукового простору
             wolf.position = std::max(searchMin, std::min(searchMax, newPosition));
         }
 

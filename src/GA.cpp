@@ -51,8 +51,6 @@ public:
         for (size_t i = 0; i < chromosomeLength; ++i) {
             decimal = (decimal << 1) | (binary[i] ? 1 : 0);
         }
-        
-        // ПЕРЕВІР ЦЕ - може бути помилка з типами
         double maxDecimal = (1ULL << chromosomeLength) - 1;
         return static_cast<float>((decimal / maxDecimal) * (searchMax - searchMin) + searchMin);
     }
@@ -60,7 +58,7 @@ public:
     void EvaluateFitness(std::function<float(float)> fitnessFunction) {
         for (auto& chrom : population) {
             chrom.position = BinaryToFloat(chrom.genes);
-            chrom.fitness = -fitnessFunction(chrom.position); // Мінімізація
+            chrom.fitness = -fitnessFunction(chrom.position); 
         }
     }
 
@@ -91,7 +89,7 @@ public:
         
         for (int i = 1; i < tournamentSize; ++i) {
             Chromosome* candidate = &population[std::uniform_int_distribution<int>(0, populationSize - 1)(rng)];
-            if (candidate->fitness > best->fitness) {  // Перевір, що це правильне порівняння
+            if (candidate->fitness > best->fitness) { 
                 best = candidate;
             }
         }
@@ -105,7 +103,6 @@ public:
             [](const Chromosome& a, const Chromosome& b) { return a.fitness < b.fitness; });
         newPopulation.push_back(bestChromosome);
 
-        // Створюємо нову популяцію
         while (newPopulation.size() < populationSize) {
             Chromosome parent1 = TournamentSelection();
             Chromosome parent2 = TournamentSelection();
@@ -114,7 +111,6 @@ public:
             child1.genes = Crossover(parent1.genes, parent2.genes);
             Mutate(child1.genes);
             
-            // ДОДАЙ ЦЕ: оцінити дитину
             child1.position = BinaryToFloat(child1.genes);
             child1.fitness = -fitnessFunction(child1.position);
             
