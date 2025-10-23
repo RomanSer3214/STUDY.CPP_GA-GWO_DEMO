@@ -56,10 +56,12 @@ public:
                 delta = beta;
                 beta = alpha;
                 alpha = Wolf(wolf.position, fitness);
-            } else if (fitness > beta.fitness) {
+            } 
+            else if (fitness > beta.fitness) {
                 delta = beta;
                 beta = Wolf(wolf.position, fitness);
-            } else if (fitness > delta.fitness) {
+            } 
+            else if (fitness > delta.fitness) {
                 delta = Wolf(wolf.position, fitness);
             }
         }
@@ -68,7 +70,6 @@ public:
     void RunGeneration(std::function<float(float)> fitnessFunction) {
         EvaluateFitness(fitnessFunction);
 
-        // Параметр a лінійно зменшується від 2 до 0
         float a = 2.0f - (2.0f * currentGeneration) / 100.0f;
         
         for (auto& wolf : wolves) {

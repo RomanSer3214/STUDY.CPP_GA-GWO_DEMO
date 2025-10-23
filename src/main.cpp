@@ -35,13 +35,13 @@ std::vector<float> bestPositions;
 std::vector<float> bestFitnessHistory;
 
 // Тестові функції
-const char* testFunctions[] = { "Sphere", "Rastrigin", "Custom Function" };
+const char* testFunctions[] = { "Parabola", "Rastrigin", "Custom Function" };
 int selectedFunction = 0;
 
 float TestFunction(float x) {
     const float pi = 3.14159265359f;
     switch (selectedFunction) {
-        case 0: // Sphere
+        case 0: // Parabolic
             return x * x;
         case 1: // Rastrigin
             return x * x - 10.0f * cosf(2.0f * pi * x) + 10.0f;
