@@ -2,7 +2,7 @@
 /build/
 *.o
 *.exe
-test_app
+Demo_app
 imgui.ini
 compile_flags.txt
 
