@@ -1,3 +1,0 @@
-/home/roman/programming/C++/UNI PROJECTS/P1/STUDY.CPP_GA-GWO_DEMO/src/build/CMakeFiles/Demo_App.dir
-/home/roman/programming/C++/UNI PROJECTS/P1/STUDY.CPP_GA-GWO_DEMO/src/build/CMakeFiles/edit_cache.dir
-/home/roman/programming/C++/UNI PROJECTS/P1/STUDY.CPP_GA-GWO_DEMO/src/build/CMakeFiles/rebuild_cache.dir
