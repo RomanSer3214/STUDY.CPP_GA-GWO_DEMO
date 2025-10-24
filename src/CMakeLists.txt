@@ -4,7 +4,7 @@ project(Demo_App LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-# Автоматичне виявлення Wayland
+# Wayland check
 if(UNIX AND NOT APPLE)
     find_package(PkgConfig QUIET)
     if(PKG_CONFIG_FOUND)
@@ -41,11 +41,11 @@ target_include_directories(${PROJECT_NAME} PRIVATE
     ../src
 )
 
-# Пошук OpenGL
+# OpenGL search
 find_package(OpenGL REQUIRED)
 find_package(Threads REQUIRED)
 
-# Налаштування для Linux
+# Linux setup
 if(UNIX AND NOT APPLE)
     if(USE_WAYLAND)
         find_package(PkgConfig REQUIRED)
@@ -56,7 +56,7 @@ if(UNIX AND NOT APPLE)
             xkbcommon
         )
         
-        # Перевірка GLFW з Wayland
+        # GLFW and Wayland check
         find_library(GLFW_LIBRARY glfw)
         if(NOT GLFW_LIBRARY)
             message(FATAL_ERROR "GLFW not found. Install glfw-wayland or glfw with Wayland support.")
@@ -76,7 +76,7 @@ if(UNIX AND NOT APPLE)
     target_link_libraries(${PROJECT_NAME} PRIVATE dl)
 endif()
 
-# Загальні бібліотеки
+# Libs
 target_link_libraries(${PROJECT_NAME} 
     PRIVATE 
         OpenGL::GL
@@ -86,14 +86,29 @@ target_link_libraries(${PROJECT_NAME}
 # GLFW
 if(USE_WAYLAND AND UNIX AND NOT APPLE)
     target_link_libraries(${PROJECT_NAME} PRIVATE ${GLFW_LIBRARY})
-else()
+elseif(UNIX AND NOT APPLE)
     find_package(glfw3 REQUIRED)
     target_link_libraries(${PROJECT_NAME} PRIVATE glfw)
 endif()
 
 # Windows
 if(WIN32)
-    target_link_libraries(${PROJECT_NAME} PRIVATE gdi32 imm32)
+    message(STATUS "Configuring for Windows (manual Win32 GLFW setup)")
+
+    set(GLFW_ROOT "D:/programming/glfw-3.4.bin.WIN32") # set to your glfw location
+
+    target_include_directories(${PROJECT_NAME} PRIVATE
+        "${GLFW_ROOT}/include"
+    )
+
+    target_link_libraries(${PROJECT_NAME} PRIVATE
+        "${GLFW_ROOT}/lib-vc2022/glfw3.lib"
+        gdi32
+        imm32
+    )
+
+    target_compile_definitions(${PROJECT_NAME} PRIVATE GLFW_STATIC)
+
     if(MINGW)
         target_compile_definitions(${PROJECT_NAME} PRIVATE IMGUI_IMPL_OPENGL_LOADER_GL3W)
     endif()
