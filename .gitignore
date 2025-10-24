@@ -1,8 +1,8 @@
 # Build output
-/build/
+build/
 *.o
 *.exe
-Demo_app
+Demo_App
 imgui.ini
 compile_flags.txt
 
